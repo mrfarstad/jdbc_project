@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: gruppe133
+      MYSQL_DATABASE: gruppe133
+      MYSQL_USER: gruppe133
+      MYSQL_PASSWORD: gruppe133
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080

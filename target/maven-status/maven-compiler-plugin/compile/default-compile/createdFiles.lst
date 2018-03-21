@@ -1,0 +1,10 @@
+com/mycompany/app/Treningsøkt.class
+com/mycompany/app/Notat.class
+com/mycompany/app/Apparat.class
+com/mycompany/app/App.class
+com/mycompany/app/MuskelGruppe.class
+com/mycompany/app/Øvelse.class
+com/mycompany/app/ØvelsesGruppe.class
+com/mycompany/app/ActiveDomainObject.class
+com/mycompany/app/TreningssenterCtrl.class
+com/mycompany/app/DBConnect.class

@@ -3,24 +3,35 @@ package com.mycompany.app;
 import java.sql.*;
 import java.util.Properties;
 
-public abstract class DBConnect {
+public class DBConnect {
   protected Connection conn;
-
-  public DBConnect() {}
+  
+  static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+  static final String DB_URL = "jdbc:mysql://localhost:3306/gruppe133";
+  static final String USER = "root";
+  static final String PASS = "gruppe133";
 
   public void connect() {
     try {
-      Class.forName("com.mysql.jdbc.Driver").newInstance();
-      // Properties for user and password. Here the user and password are both 'paulr'
-      Properties p = new Properties();
-      p.put("user", "gruppe133");
-      p.put("password", "gruppe133");
-      //            conn = DriverManager.getConnection("jdbc:mysql://mysql.ansatt.ntnu.no/sveinbra_ektdb?autoReconnect=true&useSSL=false",p);
+      Class.forName(JDBC_DRIVER);
+      Properties props = new Properties();
+      props.put("db", "db");
+      props.put("user", USER);
+      props.put("password", PASS);
+      props.put("database", PASS);
       conn =
           DriverManager.getConnection(
-              "jdbc:mysql://127.0.0.1:8081/ekt?autoReconnect=true&useSSL=false", p);
+        		  DB_URL , props);
     } catch (Exception e) {
-      throw new RuntimeException("Unable to connect", e);
+      throw new RuntimeException("Unable to connect to the MySQL server", e);
     }
   }
+  
+  public static void main(String[] args) {
+	  
+	DBConnect db = new DBConnect();
+	db.connect();
+	Apparat apparat = new Apparat(1, "", "");
+	apparat.initialize(db.conn);
+}
 }

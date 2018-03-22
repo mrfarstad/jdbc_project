@@ -8,7 +8,20 @@ public class Notat extends ActiveDomainObject {
 	
 	private int notatId;
 	private String beskrivelse;
+	
+	public Notat(int notatId, String beskrivelse) {
+		this.notatId = notatId;
+		this.beskrivelse = beskrivelse;
+	}
 
+	public Integer getNotatId() {
+		return notatId;
+	}
+	
+	public String getBeskrivelse() {
+		return beskrivelse;
+	}
+	
   @Override
   public void initialize(Connection conn) {
     try {

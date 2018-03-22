@@ -14,19 +14,29 @@ public class Treningsøkt extends ActiveDomainObject {
   private int form;
   private int prestasjon;
 
+  private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+  public Treningsøkt(
+      int øktId, String dato, String tidspunkt, int varighet, int form, int prestasjon) {
+    this.øktId = øktId;
+    this.datoTid = LocalDateTime.parse(dato + " " + tidspunkt, formatter);
+    this.varighet = varighet;
+    this.form = form;
+    this.prestasjon = prestasjon;
+  }
+
   @Override
   public void initialize(Connection conn) {
     try {
       Statement stmt = conn.createStatement();
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
       ResultSet rs =
-          stmt.executeQuery("select øktId, dato, tidspunkt, varighet, form, prestasjon from Treningsøkt where øktId=" + øktId);
+          stmt.executeQuery(
+              "select øktId, dato, tidspunkt, varighet, form, prestasjon from Treningsøkt where øktId="
+                  + øktId);
       while (rs.next()) {
         øktId = rs.getInt("øktId");
         datoTid =
-            LocalDateTime.parse(
-                rs.getString("dato") + " " + rs.getString("tidspunkt"),
-                formatter);
+            LocalDateTime.parse(rs.getString("dato") + " " + rs.getString("tidspunkt"), formatter);
         varighet = rs.getInt("varighet");
         form = rs.getInt("form");
         prestasjon = rs.getInt("prestasjon");
@@ -44,12 +54,12 @@ public class Treningsøkt extends ActiveDomainObject {
 
   @Override
   public void save(Connection conn) {
-	  
-	  DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	  DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-	  
-	  String dato = datoTid.format(dateFormatter);
-	  String tid = datoTid.format(timeFormatter);
+
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+    String dato = datoTid.format(dateFormatter);
+    String tid = datoTid.format(timeFormatter);
     try {
       Statement stmt = conn.createStatement();
       stmt.executeUpdate(

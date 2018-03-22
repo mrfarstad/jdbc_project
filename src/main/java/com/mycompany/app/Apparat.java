@@ -8,13 +8,19 @@ public class Apparat extends ActiveDomainObject {
   private String navn;
   private String beskrivelse;
 
+  public Apparat(int apparatId) {
+    this.apparatId = apparatId;
+    this.navn = null;
+    this.beskrivelse = null;
+  }
+
   public Apparat(int apparatId, String navn, String beskrivelse) {
     this.apparatId = apparatId;
     this.navn = navn;
     this.beskrivelse = beskrivelse;
   }
 
-  public int getApparatId() {
+  public Integer getApparatId() {
     return apparatId;
   }
 

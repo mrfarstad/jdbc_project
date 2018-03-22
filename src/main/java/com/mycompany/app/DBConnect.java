@@ -26,12 +26,5 @@ public class DBConnect {
       throw new RuntimeException("Unable to connect to the MySQL server", e);
     }
   }
-  
-  public static void main(String[] args) {
-	  
-	DBConnect db = new DBConnect();
-	db.connect();
-	Apparat apparat = new Apparat(1, "", "");
-	apparat.initialize(db.conn);
-}
+ 
 }

@@ -6,9 +6,9 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Treningsøkt extends ActiveDomainObject {
+public class Treningsokt extends ActiveDomainObject {
 
-  private int øktId;
+  private int oktId;
   private LocalDateTime datoTid;
   private int varighet;
   private int form;
@@ -16,9 +16,9 @@ public class Treningsøkt extends ActiveDomainObject {
 
   private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-  public Treningsøkt(
-      int øktId, String dato, String tidspunkt, int varighet, int form, int prestasjon) {
-    this.øktId = øktId;
+  public Treningsokt(
+      int oktId, String dato, String tidspunkt, int varighet, int form, int prestasjon) {
+    this.oktId = oktId;
     this.datoTid = LocalDateTime.parse(dato + " " + tidspunkt, formatter);
     this.varighet = varighet;
     this.form = form;
@@ -31,10 +31,10 @@ public class Treningsøkt extends ActiveDomainObject {
       Statement stmt = conn.createStatement();
       ResultSet rs =
           stmt.executeQuery(
-              "select øktId, dato, tidspunkt, varighet, form, prestasjon from Treningsøkt where øktId="
-                  + øktId);
+              "select oktId, dato, tidspunkt, varighet, form, prestasjon from Treningsokt where oktId="
+                  + oktId);
       while (rs.next()) {
-        øktId = rs.getInt("øktId");
+        oktId = rs.getInt("oktId");
         datoTid =
             LocalDateTime.parse(rs.getString("dato") + " " + rs.getString("tidspunkt"), formatter);
         varighet = rs.getInt("varighet");
@@ -42,7 +42,7 @@ public class Treningsøkt extends ActiveDomainObject {
         prestasjon = rs.getInt("prestasjon");
       }
     } catch (Exception e) {
-      System.out.println("db error during select of Treningsøkt= " + e);
+      System.out.println("db error during select of Treningsokt= " + e);
       return;
     }
   }
@@ -63,8 +63,8 @@ public class Treningsøkt extends ActiveDomainObject {
     try {
       Statement stmt = conn.createStatement();
       stmt.executeUpdate(
-          "insert into Treningsøkt values ("
-              + øktId
+          "insert into Treningsokt values ("
+              + oktId
               + ", "
               + dato
               + ", "
@@ -77,7 +77,7 @@ public class Treningsøkt extends ActiveDomainObject {
               + prestasjon
               + ")");
     } catch (Exception e) {
-      System.out.println("db error during insert of Treningsøkt=" + e);
+      System.out.println("db error during insert of Treningsokt=" + e);
       return;
     }
   }

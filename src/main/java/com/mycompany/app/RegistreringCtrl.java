@@ -5,12 +5,12 @@ import java.sql.SQLException;
 public class RegistreringCtrl extends DBConnect {
 
   private Apparat apparat;
-  private Øvelse øvelse;
-  private Treningsøkt treningsøkt;
+  private Ovelse ovelse;
+  private Treningsokt treningsokt;
 
   public RegistreringCtrl() {
     connect();
-    // La laging av avtale være en transaksjon
+    // La laging av avtale vaere en transaksjon
     try {
       conn.setAutoCommit(false);
     } catch (SQLException e) {
@@ -19,6 +19,7 @@ public class RegistreringCtrl extends DBConnect {
     }
   }
 
+  // Use case 1
   public Apparat registrerApparat(int apparatId, String navn, String beskrivelse) {
     // Sjekk om apparat allerede eksisterer
     apparat = new Apparat(apparatId);
@@ -31,19 +32,21 @@ public class RegistreringCtrl extends DBConnect {
     return apparat;
   }
 
-  public ØvelsePåApparat registrerØvelsePåApparat(
-      int øvelseId, String navn, int antallKilo, int antallSett, int apparatId) {
+  // Use case 1
+  public OvelsePaApparat registrerOvelsePaApparat(
+      int ovelseId, String navn, int antallKilo, int antallSett, int apparatId) {
     registrerApparat(apparatId, navn, "");
-    ØvelsePåApparat øvelsePåApparat = new ØvelsePåApparat(øvelseId, navn, antallKilo, antallSett);
-    øvelsePåApparat.save(conn);
-    return øvelsePåApparat;
+    OvelsePaApparat ovelsePaApparat = new OvelsePaApparat(ovelseId, navn, antallKilo, antallSett);
+    ovelsePaApparat.save(conn);
+    return ovelsePaApparat;
   }
 
-  public ØvelseUtenApparat registrerØvelseUtenApparat(int øvelseId, String navn, String beskrivelse) {
-	    registrerApparat(øvelseId, navn, navn);
-	    ØvelseUtenApparat øvelseUtenApparat = new ØvelseUtenApparat(øvelseId, navn, beskrivelse);
-	    øvelseUtenApparat.save(conn);
-	    return øvelseUtenApparat;
+  // Use case 1
+  public OvelseUtenApparat registrerOvelseUtenApparat(int ovelseId, String navn, String beskrivelse) {
+	    registrerApparat(ovelseId, navn, navn);
+	    OvelseUtenApparat ovelseUtenApparat = new OvelseUtenApparat(ovelseId, navn, beskrivelse);
+	    ovelseUtenApparat.save(conn);
+	    return ovelseUtenApparat;
   }
   
   private Notat registrerNotat(int notatId, String beskrivelse) {
@@ -58,16 +61,17 @@ public class RegistreringCtrl extends DBConnect {
 	    return notat;
 	  }
 
-  public Treningsøkt registrerTreningsøkt(
-	      int øktId, String dato, String tidspunkt, int varighet, int form, int prestasjon, int notatId, String beskrivelse) {
+  // Use case 1
+  public Treningsokt registrerTreningsokt(
+	      int oktId, String dato, String tidspunkt, int varighet, int form, int prestasjon, int notatId, String beskrivelse) {
 	  registrerNotat(notatId, beskrivelse);
-	  Treningsøkt treningsøkt = new Treningsøkt(øktId, dato, tidspunkt, varighet, form, prestasjon);
-	  treningsøkt.save(conn);
-	  return treningsøkt;
+	  Treningsokt treningsokt = new Treningsokt(oktId, dato, tidspunkt, varighet, form, prestasjon);
+	  treningsokt.save(conn);
+	  return treningsokt;
 	  
   }
 
-  public void fullførRegistrering() {
+  public void fullforRegistrering() {
     // Skriv inn alt som skal lagres
     try {
       conn.commit();

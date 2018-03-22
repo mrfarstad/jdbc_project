@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class ØvelsesGruppe extends ActiveDomainObject {
+public class OvelsesGruppe extends ActiveDomainObject {
 	
 	private int gruppeId;
 	private MuskelGruppe muskelGruppe;
@@ -14,13 +14,13 @@ public class ØvelsesGruppe extends ActiveDomainObject {
     try {
       Statement stmt = conn.createStatement();
       ResultSet rs =
-          stmt.executeQuery("select gruppeId, navn from ØvelsesGruppe where gruppeId=" + gruppeId);
+          stmt.executeQuery("select gruppeId, navn from OvelsesGruppe where gruppeId=" + gruppeId);
       while (rs.next()) {
         gruppeId = rs.getInt("gruppeId");
         muskelGruppe = stringToMuskelGruppe(rs.getString("muskelGruppe"));
       }
     } catch (Exception e) {
-      System.out.println("db error during select of ØvelsesGruppe= " + e);
+      System.out.println("db error during select of OvelsesGruppe= " + e);
       return;
     }
   }
@@ -56,7 +56,7 @@ public class ØvelsesGruppe extends ActiveDomainObject {
 	    try {
 	        Statement stmt = conn.createStatement();
 	        stmt.executeUpdate(
-	            "insert into Øvelse values (" + gruppeId + ", " + muskelGruppe + ")");
+	            "insert into Ovelse values (" + gruppeId + ", " + muskelGruppe + ")");
 	      } catch (Exception e) {
 	        System.out.println("db error during insert of MuskelGruppe=" + e);
 	        return;

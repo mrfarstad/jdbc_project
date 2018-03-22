@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class ØvelseUtenApparat extends Øvelse {
+public class OvelseUtenApparat extends Ovelse {
 
   private String beskrivelse;
 
-  public ØvelseUtenApparat(int øvelseId, String navn, String beskrivelse) {
-    this.øvelseId = øvelseId;
+  public OvelseUtenApparat(int ovelseId, String navn, String beskrivelse) {
+    this.ovelseId = ovelseId;
     this.navn = navn;
     this.beskrivelse = beskrivelse;
   }
@@ -20,15 +20,15 @@ public class ØvelseUtenApparat extends Øvelse {
       Statement stmt = conn.createStatement();
       ResultSet rs =
           stmt.executeQuery(
-              "select øvelseId, navn, beskrivelse from Øvelse inner join ØvelseUtenApparat where øvelseId="
-                  + øvelseId);
+              "select ovelseId, navn, beskrivelse from Ovelse inner join OvelseUtenApparat where ovelseId="
+                  + ovelseId);
       while (rs.next()) {
-        øvelseId = rs.getInt("øvelseId");
+        ovelseId = rs.getInt("ovelseId");
         navn = rs.getString("navn");
         beskrivelse = rs.getString("beskrivelse");
       }
     } catch (Exception e) {
-      System.out.println("db error during select of ØvelseUtenApparat= " + e);
+      System.out.println("db error during select of OvelseUtenApparat= " + e);
       return;
     }
   }
@@ -42,10 +42,10 @@ public class ØvelseUtenApparat extends Øvelse {
   public void save(Connection conn) {
     try {
       Statement stmt = conn.createStatement();
-      stmt.executeUpdate("insert into Øvelse values (" + øvelseId + ", " + navn + ")");
-      stmt.executeUpdate("insert into ØvelseUtenApparat values (" + beskrivelse + ")");
+      stmt.executeUpdate("insert into Ovelse values (" + ovelseId + ", " + navn + ")");
+      stmt.executeUpdate("insert into OvelseUtenApparat values (" + beskrivelse + ")");
     } catch (Exception e) {
-      System.out.println("db error during insert of ØvelseUtenApparat=" + e);
+      System.out.println("db error during insert of OvelseUtenApparat=" + e);
       return;
     }
   }

@@ -57,7 +57,7 @@ public class RegistreringCtrl extends DBConnect {
 	    return ovelseUtenApparat;
   }
   
-  private Notat registrerNotat(int notatId, String beskrivelse) {
+  public Notat registrerNotat(int notatId, String beskrivelse) {
 	    // Sjekk om apparat allerede eksisterer
 	    Notat notat = new Notat(notatId, beskrivelse);
 	    notat.initialize(conn);

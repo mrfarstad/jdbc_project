@@ -10,21 +10,27 @@ public class OvelsePaApparat extends Ovelse {
   private int antallKilo;
   private Apparat apparat;
 
-  public OvelsePaApparat(int ovelseId, String navn, int antallKilo, int antallSett) {
+  public OvelsePaApparat(int ovelseId) {
+    this.ovelseId = ovelseId;
+  }
+
+  public OvelsePaApparat(
+      int ovelseId, String navn, int antallKilo, int antallSett, Apparat apparat) {
     this.ovelseId = ovelseId;
     this.navn = navn;
     this.antallKilo = antallKilo;
     this.antallSett = antallSett;
+    this.apparat = apparat;
   }
 
   @Override
   public void initialize(Connection conn) {
     try {
       Statement stmt = conn.createStatement();
-      ResultSet rs =
-          stmt.executeQuery(
-              "select ovelseId, navn, antallSett, antallKilo, apparatId from Ovelse inner join OvelsePaApparat where ovelseId="
-                  + ovelseId);
+      ResultSet rs = stmt.executeQuery("select * from Ovelse inner join OvelsePaApparat where Ovelse.ovelseId=" + ovelseId);
+      if (!rs.isBeforeFirst()) {
+        ovelseId = null;
+      }
       while (rs.next()) {
         ovelseId = rs.getInt("ovelseId");
         navn = rs.getString("navn");
@@ -35,7 +41,6 @@ public class OvelsePaApparat extends Ovelse {
       }
     } catch (Exception e) {
       System.out.println("db error during select of OvelsePaApparat= " + e);
-      return;
     }
   }
 

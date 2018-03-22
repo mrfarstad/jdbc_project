@@ -22,6 +22,9 @@ public class OvelseUtenApparat extends Ovelse {
           stmt.executeQuery(
               "select ovelseId, navn, beskrivelse from Ovelse inner join OvelseUtenApparat where ovelseId="
                   + ovelseId);
+      if (!rs.isBeforeFirst()) {
+        ovelseId = null;
+      }
       while (rs.next()) {
         ovelseId = rs.getInt("ovelseId");
         navn = rs.getString("navn");
@@ -42,8 +45,8 @@ public class OvelseUtenApparat extends Ovelse {
   public void save(Connection conn) {
     try {
       Statement stmt = conn.createStatement();
-      stmt.executeUpdate("insert into Ovelse values (" + ovelseId + ", " + navn + ")");
-      stmt.executeUpdate("insert into OvelseUtenApparat values (" + beskrivelse + ")");
+      stmt.executeUpdate("insert into Ovelse values (" + ovelseId + ", \"" + navn + "\")");
+      stmt.executeUpdate("insert into OvelseUtenApparat values (\"" + beskrivelse + "\")");
     } catch (Exception e) {
       System.out.println("db error during insert of OvelseUtenApparat=" + e);
       return;

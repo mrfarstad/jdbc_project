@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 public class Notat extends ActiveDomainObject {
 	
-	private int notatId;
+	private Integer notatId;
 	private String beskrivelse;
 	
 	public Notat(int notatId, String beskrivelse) {
@@ -28,6 +28,9 @@ public class Notat extends ActiveDomainObject {
       Statement stmt = conn.createStatement();
       ResultSet rs =
           stmt.executeQuery("select notatId, beskrivelse from Notat where notatId=" + notatId);
+      if (!rs.isBeforeFirst()) {
+    	  	notatId = null;
+      }
       while (rs.next()) {
     	  notatId = rs.getInt("notatId");
     	  beskrivelse = rs.getString("beskrivelse");

@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class Apparat extends ActiveDomainObject {
 
-  private int apparatId;
+  private Integer apparatId;
   private String navn;
   private String beskrivelse;
 
@@ -39,6 +39,9 @@ public class Apparat extends ActiveDomainObject {
       ResultSet rs =
           stmt.executeQuery(
               "select apparatId, navn, beskrivelse from Apparat where apparatId=" + apparatId);
+      if (!rs.isBeforeFirst()) {
+    	  	apparatId = null;
+      }
       while (rs.next()) {
         apparatId = rs.getInt("apparatId");
         navn = rs.getString("navn");
@@ -60,7 +63,7 @@ public class Apparat extends ActiveDomainObject {
     try {
       Statement stmt = conn.createStatement();
       stmt.executeUpdate(
-          "insert into Apparat values (" + apparatId + ", " + navn + "," + beskrivelse + ")");
+          "insert into Apparat values (" + apparatId + ", \"" + navn + "\", \"" + beskrivelse + "\");");
     } catch (Exception e) {
       System.out.println("db error during insert of Apparat=" + e);
       return;

@@ -20,7 +20,7 @@ public class RegistreringCtrl extends DBConnect {
   }
 
   // Use case 1
-  public Apparat registrerApparat(int apparatId, String navn, String beskrivelse) {
+  public Apparat registrerApparat(int apparatId, String navn, String beskrivelse) throws SQLException {
     // Sjekk om apparat allerede eksisterer
     apparat = new Apparat(apparatId);
     apparat.initialize(conn);
@@ -28,22 +28,30 @@ public class RegistreringCtrl extends DBConnect {
       //Hvis ikke, lag en ny rad i apparat tabellen
       apparat = new Apparat(apparatId, navn, beskrivelse);
       apparat.save(conn);
+    } else {
+    		throw new SQLException("Apparat already exist!");
     }
     return apparat;
   }
 
   // Use case 1
   public OvelsePaApparat registrerOvelsePaApparat(
-      int ovelseId, String navn, int antallKilo, int antallSett, int apparatId) {
-    registrerApparat(apparatId, navn, "");
-    OvelsePaApparat ovelsePaApparat = new OvelsePaApparat(ovelseId, navn, antallKilo, antallSett);
-    ovelsePaApparat.save(conn);
+      int ovelseId, String navn, int antallKilo, int antallSett, int apparatId) throws SQLException {
+    Apparat app = new Apparat(apparatId);
+    app.initialize(conn);
+    OvelsePaApparat ovelsePaApparat = new OvelsePaApparat(ovelseId);
+    ovelsePaApparat.initialize(conn);
+    if (ovelsePaApparat.getOvelseId() == null) {
+    		ovelsePaApparat = new OvelsePaApparat(ovelseId, navn, antallKilo, antallSett, app);
+    		ovelsePaApparat.save(conn);
+    } else {
+    		throw new SQLException("Ovelse already exist!");
+    }
     return ovelsePaApparat;
   }
 
   // Use case 1
   public OvelseUtenApparat registrerOvelseUtenApparat(int ovelseId, String navn, String beskrivelse) {
-	    registrerApparat(ovelseId, navn, navn);
 	    OvelseUtenApparat ovelseUtenApparat = new OvelseUtenApparat(ovelseId, navn, beskrivelse);
 	    ovelseUtenApparat.save(conn);
 	    return ovelseUtenApparat;

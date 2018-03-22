@@ -43,7 +43,7 @@ public class OvelseUtenApparat extends Ovelse {
     try {
       Statement stmt = conn.createStatement();
       stmt.executeUpdate("insert into Ovelse values (" + ovelseId + ", " + navn + ")");
-      stmt.executeUpdate("insert into OvelseUtenApparat values (" + beskrivelse + ")");
+      stmt.executeUpdate("insert into OvelseUtenApparat values (" + ovelseId+ ", "+ beskrivelse + ")");
     } catch (Exception e) {
       System.out.println("db error during insert of OvelseUtenApparat=" + e);
       return;

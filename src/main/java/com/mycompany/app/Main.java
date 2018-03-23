@@ -98,6 +98,15 @@ class OvelserInGruppe extends UiBaseElement {
     }
 }
 
+class GrupperForOvelse extends UiBaseElement {
+    @Override
+    public void execute(RegistreringCtrl ctrl) {
+        int ovelsesId = getInteger("ovelsesId");
+        System.out.println("Fant følgende Grupper: ");
+        OvelsesGruppe.allGroupsFromOvelse(ctrl.conn, ovelsesId).forEach(gruppe->System.out.printf(" - %s\n", gruppe));
+    }
+}
+
 
 class RegistrerOvelsesGruppe extends UiBaseElement {
     @Override
@@ -124,13 +133,14 @@ public class Main {
         RegistreringCtrl reg = new RegistreringCtrl();
         List<Pair<String, UiBaseElement>> elements = new ArrayList<>();
 
-        elements.add(new Pair("Registrer apparat", new RegistrerApparat()));
-        elements.add(new Pair("Registrer øvelse på apparat", new RegistrerOvelsePaApparat()));
-        elements.add(new Pair("Registrer øvelse uten apparat", new RegistrerOvelseUtenApparat()));
-        elements.add(new Pair("Registrer treningsøkt", new RegistrerTreningsøkt()));
-        elements.add(new Pair("Registrer ny øvelsesgruppe", new RegistrerOvelsesGruppe()));
-        elements.add(new Pair("Registrer TrenderMuskelGruppe", new AddTrenerMuskelGruppe()));
-        elements.add(new Pair("List øvelser i en gruppe", new OvelserInGruppe()));
+        elements.add(new Pair("USECASE 1 - Registrer apparat", new RegistrerApparat()));
+        elements.add(new Pair("USECASE 1 - Registrer øvelse på apparat", new RegistrerOvelsePaApparat()));
+        elements.add(new Pair("USECASE 1 - Registrer øvelse uten apparat", new RegistrerOvelseUtenApparat()));
+        elements.add(new Pair("USECASE 1 - Registrer treningsøkt", new RegistrerTreningsøkt()));
+        elements.add(new Pair("USECASE 4 - Registrer ny øvelsesgruppe", new RegistrerOvelsesGruppe()));
+        elements.add(new Pair("USECASE 4 - Registrer TrenderMuskelGruppe", new AddTrenerMuskelGruppe()));
+        elements.add(new Pair("USECASE 4 - List øvelser i en gruppe", new OvelserInGruppe()));
+        elements.add(new Pair("USECASE 5 - List grouppene til en øvelse", new GrupperForOvelse()));
         elements.add(new Pair("Exit app", new ExitApp()));
 
         while (true) {

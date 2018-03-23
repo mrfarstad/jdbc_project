@@ -43,7 +43,6 @@ public class OvelsesGruppe extends ActiveDomainObject {
                 int gruppeId = rs.getInt("gruppeId");
                 String muskelGruppe = (rs.getString("muskelGruppe"));
                 grupper.add(new OvelsesGruppe(gruppeId, muskelGruppe));
-
             }
         } catch (Exception e) {
             System.err.println("db error during select of OvelsesGruppe= " + e);
@@ -155,6 +154,24 @@ public class OvelsesGruppe extends ActiveDomainObject {
         }
         return ovelser;
 
+    }
+
+    public static List<String> allGroupsFromOvelse(Connection conn, int ovelsesId){
+        List<String> all = new ArrayList<>();
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs =
+                    stmt.executeQuery("select muskelGruppe from OvelsesGruppe join  TrenerMuskelGruppe on OvelsesGruppe.gruppeId = TrenerMuskelGruppe.gruppeId where TrenerMuskelGruppe.ovelseId =" + ovelsesId);
+
+            while (rs.next()) {
+                String name = rs.getString("muskelGruppe");
+                all.add(name);
+            }
+        } catch (Exception e) {
+            System.out.println("db error during select of OvelsesGruppe=" + e);
+        }
+        return all;
     }
 
     public static void addOvelseToGruppe(Connection conn, int ovelsesId, int gruppeId) {

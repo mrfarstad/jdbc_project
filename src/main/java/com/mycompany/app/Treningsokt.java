@@ -45,6 +45,12 @@ public class Treningsokt extends ActiveDomainObject {
     this.ovelseIds = ovelseIds;
   }
 
+  public String toString(){
+          return String.format("ØktId: %d\n- Form: %d\n- Prestasjon %d\n- Dato: %s\n- Varighet: %s\n-------\n", oktId, form, prestasjon, datoTid.toString(), varighet);
+
+
+  }
+
   public Integer getOktId() {
     return oktId;
   }

@@ -1,5 +1,7 @@
 package com.mycompany.app;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 public class RegistreringCtrlTest {
@@ -15,10 +17,20 @@ public class RegistreringCtrlTest {
     reg.fullforRegistrering();
   }
 
-//  @Test
-//  public void testHentTreningsokterCtrl() {
-//    //	  Use case 2
-//    HentTreningsokterCtrl okter = new HentTreningsokterCtrl();
-//    okter.senesteOkter(3);
-//  }
+  @Test
+  public void testHentTreningsokterCtrl() {
+    //	  Use case 2
+    HentTreningsokterCtrl okter = new HentTreningsokterCtrl();
+    RegistreringCtrl reg = new RegistreringCtrl();
+    reg.registrerTreningsokt(1, "2018-03-23", "11:19", 50, 10, 10, 5, "yolo");
+    reg.registrerTreningsokt(2, "2018-03-23", "11:19", 50, 10, 10, 5, "yolo");
+    reg.registrerTreningsokt(3, "2018-03-23", "11:19", 50, 10, 10, 5, "yolo");
+    reg.fullforRegistrering();
+    
+    assertTrue(okter.senesteOkter(3).size() == 3);
+    assertTrue(okter.senesteOkter(2).size() == 2);
+    assertTrue(okter.senesteOkter(1).size() == 1);
+    assertTrue(okter.senesteOkter(0).size() == 0);
+    
+  }
 }

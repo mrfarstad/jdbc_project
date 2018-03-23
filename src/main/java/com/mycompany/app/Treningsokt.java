@@ -34,21 +34,22 @@ public class Treningsokt extends ActiveDomainObject {
   }
 
   public Integer getOktId() {
-	  return oktId;
+    return oktId;
   }
-  
+
   @Override
   public void initialize(Connection conn) {
     try {
       Statement stmt = conn.createStatement();
-      ResultSet rs =
-          stmt.executeQuery(
-              "select oktId, dato, tidspunkt, varighet, form, prestasjon from Treningsokt where oktId="
-                  + oktId);
+      ResultSet rs = stmt.executeQuery("select * from Treningsokt where oktId=" + oktId);
+      if (!rs.isBeforeFirst()) {
+        oktId = null;
+      }
       while (rs.next()) {
         oktId = rs.getInt("oktId");
         datoTid =
-            LocalDateTime.parse(rs.getString("dato") + " " + rs.getString("tidspunkt").substring(0, 5), formatter);
+            LocalDateTime.parse(
+                rs.getString("dato") + " " + rs.getString("tidspunkt").substring(0, 5), formatter);
         varighet = rs.getInt("varighet");
         form = rs.getInt("form");
         prestasjon = rs.getInt("prestasjon");
@@ -93,14 +94,14 @@ public class Treningsokt extends ActiveDomainObject {
       return;
     }
   }
-  
+
   public void deleteRow(Connection conn, Integer id) {
-	    try {
-	      Statement stmt = conn.createStatement();
-	      stmt.executeUpdate("delete from Treningsokt where oktId = " + id);
-	    } catch (Exception e) {
-	      System.out.println("db error during deletion of Treningsokt =" + e);
-	      return;
-	    }
-	  }
+    try {
+      Statement stmt = conn.createStatement();
+      stmt.executeUpdate("delete from Treningsokt where oktId = " + id);
+    } catch (Exception e) {
+      System.out.println("db error during deletion of Treningsokt =" + e);
+      return;
+    }
+  }
 }

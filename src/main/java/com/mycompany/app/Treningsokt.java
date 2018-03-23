@@ -48,7 +48,7 @@ public class Treningsokt extends ActiveDomainObject {
       while (rs.next()) {
         oktId = rs.getInt("oktId");
         datoTid =
-            LocalDateTime.parse(rs.getString("dato") + " " + rs.getString("tidspunkt"), formatter);
+            LocalDateTime.parse(rs.getString("dato") + " " + rs.getString("tidspunkt").substring(0, 5), formatter);
         varighet = rs.getInt("varighet");
         form = rs.getInt("form");
         prestasjon = rs.getInt("prestasjon");
@@ -77,11 +77,11 @@ public class Treningsokt extends ActiveDomainObject {
       stmt.executeUpdate(
           "insert into Treningsokt values ("
               + oktId
-              + ", "
+              + ", \""
               + dato
-              + ", "
+              + "\", \""
               + tid
-              + ", "
+              + ":00\", "
               + varighet
               + ", "
               + form

@@ -31,8 +31,8 @@ CREATE TABLE  OvelsesGruppe (
 CREATE TABLE  Treningsokt (
 	oktId int,
     dato date,
-    tidspunkt datetime,
-    varighet datetime,
+    tidspunkt time,
+    varighet time,
     form int,
     prestasjon int,
     PRIMARY KEY(oktId)

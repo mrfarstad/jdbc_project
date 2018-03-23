@@ -34,6 +34,5 @@ public class RegistreringCtrlTest {
     assertTrue(okter.senesteOkter(2).size() == 2);
     assertTrue(okter.senesteOkter(1).size() == 1);
     assertTrue(okter.senesteOkter(0).size() == 0);
-    
   }
 }

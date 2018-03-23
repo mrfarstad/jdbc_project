@@ -6,6 +6,6 @@ A group project in TDT4145 using JDBC
 
 
 ```bash
-$ mvn install
-$ java -jar target/my-app-1.0-SNAPSHOT.jar
+$ mvn compile assembly:single
+$ java -jar target/my-app-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class Treningsokt extends ActiveDomainObject {
 
   private Integer oktId;
   private LocalDateTime datoTid;
-  private Integer varighet;
+  private LocalTime varighet;
   private Integer form;
   private Integer prestasjon;
   private List<Integer> ovelseIds;
@@ -32,13 +33,13 @@ public class Treningsokt extends ActiveDomainObject {
       int oktId,
       String dato,
       String tidspunkt,
-      int varighet,
+      String varighet,
       int form,
       int prestasjon,
       List<Integer> ovelseIds) {
     this.oktId = oktId;
     this.datoTid = LocalDateTime.parse(dato + " " + tidspunkt, formatter);
-    this.varighet = varighet;
+    this.varighet = LocalTime.parse(varighet);
     this.form = form;
     this.prestasjon = prestasjon;
     this.ovelseIds = ovelseIds;
@@ -51,7 +52,7 @@ public class Treningsokt extends ActiveDomainObject {
   public List<Integer> getOvelseIds() {
 	  return ovelseIds;
   }
-
+  
   public List<Integer> getOvelserByOktId(Connection conn, int oktId) {
     List<Integer> ovelser = null;
     try {
@@ -86,7 +87,7 @@ public class Treningsokt extends ActiveDomainObject {
         datoTid =
             LocalDateTime.parse(
                 rs.getString("dato") + " " + rs.getString("tidspunkt").substring(0, 5), formatter);
-        varighet = rs.getInt("varighet");
+        varighet = LocalTime.parse(rs.getString("varighet"));
         form = rs.getInt("form");
         prestasjon = rs.getInt("prestasjon");
         ovelseIds = getOvelserByOktId(conn, oktId);
@@ -107,9 +108,11 @@ public class Treningsokt extends ActiveDomainObject {
 
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    DateTimeFormatter secondFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     String dato = datoTid.format(dateFormatter);
     String tid = datoTid.format(timeFormatter);
+    String tidSekunder = datoTid.format(secondFormatter);
     try {
       Statement stmt = conn.createStatement();
       stmt.executeUpdate(
@@ -119,15 +122,18 @@ public class Treningsokt extends ActiveDomainObject {
               + dato
               + "\", \""
               + tid
-              + ":00\", "
-              + varighet
-              + ", "
+              + ":00\", \""
+              + tidSekunder
+              + "\", "
               + form
               + ", "
               + prestasjon
               + ")");
+      for (Integer id : ovelseIds) {
+    	  	stmt.executeUpdate("insert into OvelserUtfortPaTreningsokt values (" + oktId + ", " + id + ");");
+      }
     } catch (Exception e) {
-      System.out.println("db error during insert of Treningsokt=" + e);
+      System.out.println("db error during insert of OvelserUtfortPaTreningsokt=" + e);
       return;
     }
   }

@@ -93,6 +93,12 @@ public class RegistreringCtrl extends DBConnect {
     registrerNotat(notatId, beskrivelse, oktId);
     return treningsokt;
   }
+  public OvelsesGruppe registrerOvelsesGruppe(int gruppeId, String muskelGruppe) {
+    OvelsesGruppe gr = new OvelsesGruppe(gruppeId, muskelGruppe);
+    gr.save(conn);
+    return gr;
+
+  }
 
   public void fullforRegistrering() {
     // Skriv inn alt som skal lagres

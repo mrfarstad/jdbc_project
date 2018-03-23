@@ -1,12 +1,12 @@
 package com.mycompany.app;
 
-import javafx.util.Pair;
-import jdk.internal.util.xml.impl.Input;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
+
+import javafx.util.Pair;
 
 class InputHelper {
 }
@@ -79,7 +79,13 @@ class RegistrerTreningsøkt extends UiBaseElement {
         int prestasjon = getInteger("ØktId");
         int notatId = getInteger("ØktId");
         String beskrivelse = getString("Dato");
-        ctrl.registrerTreningsokt(oktId, dato, tidspunkt, varighet, form, prestasjon, notatId, beskrivelse);
+        Integer ovelseId = 0;
+        List<Integer> ovelser = new ArrayList<>();
+        while(ovelseId != 0) {
+        		ovelseId = getInteger("Øvelser");
+        	 	ovelser.add(ovelseId);
+        }
+        ctrl.registrerTreningsokt(oktId, dato, tidspunkt, varighet, form, prestasjon, notatId, beskrivelse, ovelser);
     }
 }
 

@@ -9,6 +9,12 @@ public class Notat extends ActiveDomainObject {
   private Integer notatId;
   private String beskrivelse;
   private Integer oktId;
+  
+  public Notat(int notatId) {
+	  this.notatId = notatId;
+	  this.beskrivelse = null;
+	  this.oktId = null;
+  }
 
   public Notat(int notatId, String beskrivelse, int oktId) {
     this.notatId = notatId;

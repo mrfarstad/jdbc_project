@@ -8,13 +8,21 @@ import java.time.format.DateTimeFormatter;
 
 public class Treningsokt extends ActiveDomainObject {
 
-  private int oktId;
+  private Integer oktId;
   private LocalDateTime datoTid;
-  private int varighet;
-  private int form;
-  private int prestasjon;
+  private Integer varighet;
+  private Integer form;
+  private Integer prestasjon;
 
   private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+  public Treningsokt(int oktId) {
+    this.oktId = oktId;
+    this.datoTid = null;
+    this.varighet = null;
+    this.form = null;
+    this.prestasjon = null;
+  }
 
   public Treningsokt(
       int oktId, String dato, String tidspunkt, int varighet, int form, int prestasjon) {
@@ -25,6 +33,10 @@ public class Treningsokt extends ActiveDomainObject {
     this.prestasjon = prestasjon;
   }
 
+  public Integer getOktId() {
+	  return oktId;
+  }
+  
   @Override
   public void initialize(Connection conn) {
     try {
@@ -81,4 +93,14 @@ public class Treningsokt extends ActiveDomainObject {
       return;
     }
   }
+  
+  public void deleteRow(Connection conn, Integer id) {
+	    try {
+	      Statement stmt = conn.createStatement();
+	      stmt.executeUpdate("delete from Treningsokt where oktId = " + id);
+	    } catch (Exception e) {
+	      System.out.println("db error during deletion of Treningsokt =" + e);
+	      return;
+	    }
+	  }
 }

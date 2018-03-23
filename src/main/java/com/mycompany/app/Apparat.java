@@ -40,7 +40,7 @@ public class Apparat extends ActiveDomainObject {
           stmt.executeQuery(
               "select apparatId, navn, beskrivelse from Apparat where apparatId=" + apparatId);
       if (!rs.isBeforeFirst()) {
-    	  	apparatId = null;
+        apparatId = null;
       }
       while (rs.next()) {
         apparatId = rs.getInt("apparatId");
@@ -63,7 +63,23 @@ public class Apparat extends ActiveDomainObject {
     try {
       Statement stmt = conn.createStatement();
       stmt.executeUpdate(
-          "insert into Apparat values (" + apparatId + ", \"" + navn + "\", \"" + beskrivelse + "\");");
+          "insert into Apparat values ("
+              + apparatId
+              + ", \""
+              + navn
+              + "\", \""
+              + beskrivelse
+              + "\");");
+    } catch (Exception e) {
+      System.out.println("db error during insert of Apparat=" + e);
+      return;
+    }
+  }
+
+  public void deleteRow(Connection conn, Integer apparatId) {
+    try {
+      Statement stmt = conn.createStatement();
+      stmt.executeUpdate("delete from Apparat where apparatId = " + apparatId);
     } catch (Exception e) {
       System.out.println("db error during insert of Apparat=" + e);
       return;

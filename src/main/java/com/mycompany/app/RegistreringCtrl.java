@@ -1,6 +1,7 @@
 package com.mycompany.app;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class RegistreringCtrl extends DBConnect {
 
@@ -80,13 +81,14 @@ public class RegistreringCtrl extends DBConnect {
       int form,
       int prestasjon,
       int notatId,
-      String beskrivelse) {
+      String beskrivelse,
+      List<Integer> ovelser) {
     treningsokt = new Treningsokt(oktId);
     treningsokt.initialize(conn);
     if (treningsokt.getOktId() != null) {
     		treningsokt.deleteRow(conn, oktId);
     }
-    treningsokt = new Treningsokt(oktId, dato, tidspunkt, varighet, form, prestasjon);
+    treningsokt = new Treningsokt(oktId, dato, tidspunkt, varighet, form, prestasjon, ovelser);
     treningsokt.save(conn);
     registrerNotat(notatId, beskrivelse, oktId);
     return treningsokt;

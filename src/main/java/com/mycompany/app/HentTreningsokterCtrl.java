@@ -18,29 +18,28 @@ public class HentTreningsokterCtrl extends DBConnect {
       return;
     }
   }
-  
+
   public List<Treningsokt> senesteOkter(int antallTreningsokter) {
-	    List<Treningsokt> okter = new ArrayList<>();
-	    try {
-	      Statement stmt = conn.createStatement();
-	      ResultSet rs =
-	          stmt.executeQuery(
-	              "select * from Treningsokt limit " + antallTreningsokter);
-	      while (rs.next()) {
-	        okter.add(
-	            new Treningsokt(
-	                rs.getInt("oktId"),
-	                rs.getString("dato"),
-	                rs.getString("tidspunkt").substring(0, 5),
-	                rs.getInt("varighet"),
-	                rs.getInt("form"),
-	                rs.getInt("prestasjon")));
-	      }
-	    } catch (Exception e) {
-	      System.out.println("db error during select of Treningsokt= " + e);
-	    }
-	    return okter;
-	  }
+    List<Treningsokt> okter = new ArrayList<>();
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet rs = stmt.executeQuery("select * from Treningsokt limit " + antallTreningsokter);
+      while (rs.next()) {
+        okter.add(
+            new Treningsokt(
+                rs.getInt("oktId"),
+                rs.getString("dato"),
+                rs.getString("tidspunkt").substring(0, 5),
+                rs.getInt("varighet"),
+                rs.getInt("form"),
+                rs.getInt("prestasjon"),
+                null));
+      }
+    } catch (Exception e) {
+      System.out.println("db error during select of Treningsokt= " + e);
+    }
+    return okter;
+  }
 
   public void fullforHentTreningsokter() {
     // Skriv inn alt som skal lagres

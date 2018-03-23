@@ -89,6 +89,7 @@ class RegistrerTreningsøkt extends UiBaseElement {
 class OvelserInGruppe extends UiBaseElement {
     @Override
     public void execute(RegistreringCtrl ctrl) {
+        OvelsesGruppe.listAll(ctrl.conn).forEach(ovels->System.out.printf(" - %s (id: %d)\n", OvelsesGruppe.muskelGruppeToString(ovels.getMuskelGruppe()), ovels.getGruppeId()));
         String gruppeId = getString("GruppeId");
         List<String> ovelser = OvelsesGruppe.getOvelsesInGruppe(ctrl.conn, gruppeId);
 
@@ -118,7 +119,6 @@ class AddTrenerMuskelGruppe extends UiBaseElement {
 
 public class Main {
 
-
     public static void main(String[] args) {
 
         RegistreringCtrl reg = new RegistreringCtrl();
@@ -144,6 +144,8 @@ public class Main {
                 elements.get(in.nextInt()).getValue().execute(reg);
             } catch (SQLException e) {
                 System.err.printf("Feil ved utføring: %s\n", e.getMessage());
+            } catch (IndexOutOfBoundsException e){
+                System.err.println("Ugyldig valg.....!!");
             } finally {
                 System.out.println("Operasjon utført");
             }

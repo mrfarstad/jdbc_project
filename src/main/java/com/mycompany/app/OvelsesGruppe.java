@@ -32,12 +32,31 @@ public class OvelsesGruppe extends ActiveDomainObject {
         this.muskelGruppe = muskelGruppe;
     }
 
+    public static List<OvelsesGruppe> listAll(Connection conn) {
+        List<OvelsesGruppe> grupper = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs =
+                    stmt.executeQuery("select gruppeId, muskelGruppe from OvelsesGruppe");
+
+            while (rs.next()) {
+                int gruppeId = rs.getInt("gruppeId");
+                String muskelGruppe = (rs.getString("muskelGruppe"));
+                grupper.add(new OvelsesGruppe(gruppeId, muskelGruppe));
+
+            }
+        } catch (Exception e) {
+            System.err.println("db error during select of OvelsesGruppe= " + e);
+        }
+        return grupper;
+    }
+
     @Override
     public void initialize(Connection conn) {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs =
-                    stmt.executeQuery("select gruppeId, navn from OvelsesGruppe where gruppeId=" + gruppeId);
+                    stmt.executeQuery("select gruppeId, muskelGruppe from OvelsesGruppe where gruppeId=" + gruppeId);
             while (rs.next()) {
                 gruppeId = rs.getInt("gruppeId");
                 muskelGruppe = stringToMuskelGruppe(rs.getString("muskelGruppe"));

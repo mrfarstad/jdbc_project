@@ -31,8 +31,8 @@ CREATE TABLE  OvelsesGruppe (
 CREATE TABLE  Treningsokt (
 	oktId int,
     dato date,
-    tidspunkt datetime,
-    varighet datetime,
+    tidspunkt time,
+    varighet time,
     form int,
     prestasjon int,
     PRIMARY KEY(oktId)
@@ -66,7 +66,7 @@ CREATE TABLE Apparat (
 
 ALTER TABLE OvelsePaApparat
     ADD FOREIGN KEY(ovelseId) REFERENCES Ovelse(ovelseId) ON UPDATE CASCADE ON DELETE CASCADE,
-    ADD FOREIGN KEY(apparatId) REFERENCES Apparat(apparatId) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD FOREIGN KEY(apparatId) REFERENCES Apparat(apparatId) ON UPDATE CASCADE ON DELETE SET NULL;
     
 ALTER TABLE OvelseUtenApparat
     ADD FOREIGN KEY(ovelseId) REFERENCES Ovelse(ovelseId) ON UPDATE CASCADE ON DELETE CASCADE;

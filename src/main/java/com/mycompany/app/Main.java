@@ -31,7 +31,7 @@ abstract class UiBaseElement {
 
 class RegistrerApparat extends UiBaseElement {
     @Override
-    public void execute(RegistreringCtrl ctrl) {
+    public void execute(RegistreringCtrl ctrl) throws SQLException {
         int apparatId = getInteger("ApperatId");
         String navn = getString("Navn");
         String beskrivelse = getString("Beskrivelse");
@@ -41,7 +41,7 @@ class RegistrerApparat extends UiBaseElement {
 
 class RegistrerOvelsePaApparat extends UiBaseElement {
     @Override
-    public void execute(RegistreringCtrl ctrl)  {
+    public void execute(RegistreringCtrl ctrl) throws SQLException  {
         int ovelseId = getInteger("ØvelsesId");
         String navn = getString("Navn");
         int antallKilo = getInteger("Antall kilo");
@@ -68,12 +68,18 @@ class ExitApp extends UiBaseElement {
     }
 }
 
-class RegistrerNotat extends UiBaseElement {
+class RegistrerTreningsøkt extends UiBaseElement {
     @Override
     public void execute(RegistreringCtrl ctrl)  {
-        int notatId = getInteger("NotatId");
-        String beskrivelse = getString("Beskrivelse");
-        ctrl.registrerNotat(notatId, beskrivelse);
+        int oktId = getInteger("ØktId");
+        String dato = getString("Dato");
+        String tidspunkt = getString("Dato");
+        int varighet = getInteger("ØktId");
+        int form = getInteger("ØktId");
+        int prestasjon = getInteger("ØktId");
+        int notatId = getInteger("ØktId");
+        String beskrivelse = getString("Dato");
+        ctrl.registrerTreningsokt(oktId, dato, tidspunkt, varighet, form, prestasjon, notatId, beskrivelse);
     }
 }
 
@@ -88,7 +94,7 @@ public class Main {
         elements.add(new Pair("Registrer apparat", new RegistrerApparat()));
         elements.add(new Pair("Registrer øvelse på apparat", new RegistrerOvelsePaApparat()));
         elements.add(new Pair("Registrer øvelse uten apparat", new RegistrerOvelseUtenApparat()));
-        elements.add(new Pair("Registrer notat", new RegistrerNotat()));
+        elements.add(new Pair("Registrer notat", new RegistrerTreningsøkt()));
         elements.add(new Pair("Exit app", new ExitApp()));
 
         while (true) {

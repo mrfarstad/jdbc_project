@@ -25,16 +25,13 @@ public class HentTreningsokterCtrl extends DBConnect {
 	      Statement stmt = conn.createStatement();
 	      ResultSet rs =
 	          stmt.executeQuery(
-	              "select * from Treningsokt"
-	                  + " limit "
-	                  + antallTreningsokter
-	                  + ");");
+	              "select * from Treningsokt limit " + antallTreningsokter);
 	      while (rs.next()) {
 	        okter.add(
 	            new Treningsokt(
 	                rs.getInt("oktId"),
 	                rs.getString("dato"),
-	                rs.getString("tidspunkt"),
+	                rs.getString("tidspunkt").substring(0, 5),
 	                rs.getInt("varighet"),
 	                rs.getInt("form"),
 	                rs.getInt("prestasjon")));

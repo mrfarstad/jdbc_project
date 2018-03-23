@@ -7,6 +7,11 @@ import java.sql.Statement;
 public class OvelseUtenApparat extends Ovelse {
 
   private String beskrivelse;
+  
+  public OvelseUtenApparat(int ovelseId) {
+	  this.ovelseId = ovelseId;
+	  this.beskrivelse = null;
+  }
 
   public OvelseUtenApparat(int ovelseId, String navn, String beskrivelse) {
     this.ovelseId = ovelseId;
@@ -20,7 +25,7 @@ public class OvelseUtenApparat extends Ovelse {
       Statement stmt = conn.createStatement();
       ResultSet rs =
           stmt.executeQuery(
-              "select ovelseId, navn, beskrivelse from Ovelse inner join OvelseUtenApparat where ovelseId="
+              "select * from Ovelse inner join OvelseUtenApparat where Ovelse.ovelseId="
                   + ovelseId);
       if (!rs.isBeforeFirst()) {
         ovelseId = null;
@@ -46,9 +51,19 @@ public class OvelseUtenApparat extends Ovelse {
     try {
       Statement stmt = conn.createStatement();
       stmt.executeUpdate("insert into Ovelse values (" + ovelseId + ", \"" + navn + "\")");
-      stmt.executeUpdate("insert into OvelseUtenApparat values (\"" + beskrivelse + "\")");
+      stmt.executeUpdate("insert into OvelseUtenApparat values (" + ovelseId + ", \"" + beskrivelse + "\")");
     } catch (Exception e) {
       System.out.println("db error during insert of OvelseUtenApparat=" + e);
+      return;
+    }
+  }
+
+  public void deleteRow(Connection conn, Integer id) {
+    try {
+      Statement stmt = conn.createStatement();
+      stmt.executeUpdate("delete from Ovelse where ovelseId = " + id);
+    } catch (Exception e) {
+      System.out.println("db error during deletion of OvelseUtenApparat=" + e);
       return;
     }
   }

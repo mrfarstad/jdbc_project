@@ -8,13 +8,21 @@ import java.time.format.DateTimeFormatter;
 
 public class Treningsokt extends ActiveDomainObject {
 
-  private int oktId;
+  private Integer oktId;
   private LocalDateTime datoTid;
-  private int varighet;
-  private int form;
-  private int prestasjon;
+  private Integer varighet;
+  private Integer form;
+  private Integer prestasjon;
 
   private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+  public Treningsokt(int oktId) {
+    this.oktId = oktId;
+    this.datoTid = null;
+    this.varighet = null;
+    this.form = null;
+    this.prestasjon = null;
+  }
 
   public Treningsokt(
       int oktId, String dato, String tidspunkt, int varighet, int form, int prestasjon) {
@@ -25,18 +33,23 @@ public class Treningsokt extends ActiveDomainObject {
     this.prestasjon = prestasjon;
   }
 
+  public Integer getOktId() {
+    return oktId;
+  }
+
   @Override
   public void initialize(Connection conn) {
     try {
       Statement stmt = conn.createStatement();
-      ResultSet rs =
-          stmt.executeQuery(
-              "select oktId, dato, tidspunkt, varighet, form, prestasjon from Treningsokt where oktId="
-                  + oktId);
+      ResultSet rs = stmt.executeQuery("select * from Treningsokt where oktId=" + oktId);
+      if (!rs.isBeforeFirst()) {
+        oktId = null;
+      }
       while (rs.next()) {
         oktId = rs.getInt("oktId");
         datoTid =
-            LocalDateTime.parse(rs.getString("dato") + " " + rs.getString("tidspunkt"), formatter);
+            LocalDateTime.parse(
+                rs.getString("dato") + " " + rs.getString("tidspunkt").substring(0, 5), formatter);
         varighet = rs.getInt("varighet");
         form = rs.getInt("form");
         prestasjon = rs.getInt("prestasjon");
@@ -65,11 +78,11 @@ public class Treningsokt extends ActiveDomainObject {
       stmt.executeUpdate(
           "insert into Treningsokt values ("
               + oktId
-              + ", "
+              + ", \""
               + dato
-              + ", "
+              + "\", \""
               + tid
-              + ", "
+              + ":00\", "
               + varighet
               + ", "
               + form
@@ -78,6 +91,16 @@ public class Treningsokt extends ActiveDomainObject {
               + ")");
     } catch (Exception e) {
       System.out.println("db error during insert of Treningsokt=" + e);
+      return;
+    }
+  }
+
+  public void deleteRow(Connection conn, Integer id) {
+    try {
+      Statement stmt = conn.createStatement();
+      stmt.executeUpdate("delete from Treningsokt where oktId = " + id);
+    } catch (Exception e) {
+      System.out.println("db error during deletion of Treningsokt =" + e);
       return;
     }
   }

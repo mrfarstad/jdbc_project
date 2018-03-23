@@ -69,4 +69,15 @@ public class OvelsePaApparat extends Ovelse {
       return;
     }
   }
+  
+  public void deleteRow(Connection conn, Integer id) {
+    try {
+      Statement stmt = conn.createStatement();
+      stmt.executeUpdate("delete from Ovelse where ovelseId = " + id);
+    } catch (Exception e) {
+      System.out.println("db error during deletion of OvelsePaApparat=" + e);
+      return;
+    }
+  }
+  
 }
